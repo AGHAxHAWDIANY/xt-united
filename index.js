@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const client = new Client({
@@ -9,8 +11,14 @@ const client = new Client({
   ]
 });
 
+const welcome = require("./events/guildMemberAdd.js");
+
+client.on("guildMemberAdd", (member) => {
+  welcome.execute(member);
+});
+
 client.once("ready", () => {
   console.log(`Bot is online as ${client.user.tag}`);
 });
 
-client.login("");
+client.login(process.env.TOKEN);
